@@ -17,8 +17,7 @@ const imcFunctions = {
       Seu IMC é de ${ImcResult(Modal.kg.value, Modal.cm.value).toFixed(2)}
     `;
 
-    Modal.alertError.classList.add('hide')
-
+      Modal.alertError.classList.add("hide");
     } else {
       e.preventDefault();
       hidenOnOrOff(Modal.alertError);
