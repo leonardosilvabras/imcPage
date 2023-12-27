@@ -1,14 +1,24 @@
 import { Modal } from "./modal.js";
+import { hidenOnOrOff, ImcResult } from "./util.js";
 
 const imcFunctions = {
+  notNumber(value) {
+    return isNaN(value) || value == "";
+  },
   openCard(e) {
-    if (Modal.kg.value != "" && Modal.cm.value != "") {
+    if (
+      imcFunctions.notNumber(Modal.kg.value) == false &&
+      imcFunctions.notNumber(Modal.cm.value) == false
+    ) {
       e.preventDefault();
       hidenOnOrOff(Modal.alertResultBox);
 
       Modal.alertResult.innerText = `
       Seu IMC é de ${ImcResult(Modal.kg.value, Modal.cm.value).toFixed(2)}
     `;
+
+    Modal.alertError.classList.add('hide')
+
     } else {
       e.preventDefault();
       hidenOnOrOff(Modal.alertError);
@@ -21,19 +31,6 @@ const imcFunctions = {
     resetLabelValues();
   },
 };
+
 Modal.btnCalculator.addEventListener("click", imcFunctions.openCard);
 Modal.alertResultClosed.addEventListener("click", imcFunctions.closedCard);
-
-const hidenOnOrOff = (item) => item.classList.toggle("hide"),
-  resetLabelValues = () => {
-    Modal.kg.value = "";
-    Modal.cm.value = "";
-  },
-  ImcResult = (kg, cm) => (Modal.imc = kg / (cm / 100) ** 2),
-  handleKeydown = (event) => {
-    if (event.key === "Escape" || event.key === "Enter") {
-      imcFunctions.closedCard;
-      console.log("piu", event.key);
-    }
-  };
-window.addEventListener("keydown", handleKeydown);
