@@ -1,42 +1,39 @@
-const alertError = document.querySelector(".alertError"),
-  alertResultBox = document.querySelector(".alertResultContainer"),
-  alertResultClosed = document.querySelector(".alertResult img"),
-  btnCalculator = document.querySelector("form button");
+import { Modal } from "./modal.js";
 
-let alertResult = document.querySelector(".alertResult p"),
-  kg = document.querySelector(".kg input"),
-  cm = document.querySelector(".cm input"),
-  imc = 0;
+const imcFunctions = {
+  openCard(e) {
+    if (Modal.kg.value != "" && Modal.cm.value != "") {
+      e.preventDefault();
+      hidenOnOrOff(Modal.alertResultBox);
 
-hidenOnOrOff = (item) => item.classList.toggle("hide");
-
-resetLabelValues = () => {
-  kg.value = "";
-  cm.value = "";
-};
-
-ImcResult = (kg, cm) => (imc = kg / (cm / 100) ** 2);
-
-ImcEvent = (e) => {
-  if (kg.value != "" && cm.value != "") {
+      Modal.alertResult.innerText = `
+      Seu IMC é de ${ImcResult(Modal.kg.value, Modal.cm.value).toFixed(2)}
+    `;
+    } else {
+      e.preventDefault();
+      hidenOnOrOff(Modal.alertError);
+      resetLabelValues();
+    }
+  },
+  closedCard(e) {
     e.preventDefault();
-    hidenOnOrOff(alertResultBox);
-
-    alertResult.innerText = `
-    Seu IMC é de ${ImcResult(kg.value, cm.value).toFixed(2)}
-  `;
-  } else {
-    e.preventDefault();
-    hidenOnOrOff(alertError);
+    hidenOnOrOff(Modal.alertResultBox);
     resetLabelValues();
-  }
+  },
 };
+Modal.btnCalculator.addEventListener("click", imcFunctions.openCard);
+Modal.alertResultClosed.addEventListener("click", imcFunctions.closedCard);
 
-closedCard = (e) => {
-  e.preventDefault();
-  hidenOnOrOff(alertResultBox);
-  resetLabelValues();
-};
-
-btnCalculator.addEventListener("click", ImcEvent);
-alertResultClosed.addEventListener("click", closedCard);
+const hidenOnOrOff = (item) => item.classList.toggle("hide"),
+  resetLabelValues = () => {
+    Modal.kg.value = "";
+    Modal.cm.value = "";
+  },
+  ImcResult = (kg, cm) => (Modal.imc = kg / (cm / 100) ** 2),
+  handleKeydown = (event) => {
+    if (event.key === "Escape" || event.key === "Enter") {
+      imcFunctions.closedCard;
+      console.log("piu", event.key);
+    }
+  };
+window.addEventListener("keydown", handleKeydown);
