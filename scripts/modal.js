@@ -1,3 +1,5 @@
+import { closedMensageAlertError } from "./util.js";
+
 export const Modal = {
   alertError: document.querySelector(".alertError"),
   alertResultBox: document.querySelector(".alertResultContainer"),
@@ -8,3 +10,6 @@ export const Modal = {
   cm: document.querySelector(".cm input"),
   imc: 0,
 };
+
+Modal.kg.oninput = () => closedMensageAlertError();
+Modal.cm.oninput = () => closedMensageAlertError();

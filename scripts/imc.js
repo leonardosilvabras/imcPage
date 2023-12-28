@@ -1,5 +1,10 @@
 import { Modal } from "./modal.js";
-import { hidenOnOrOff, ImcResult } from "./util.js";
+import {
+  hidenOnOrOff,
+  ImcResult,
+  closedMensageAlertError,
+  resetLabelValues,
+} from "./util.js";
 
 const imcFunctions = {
   notNumber(value) {
@@ -13,11 +18,12 @@ const imcFunctions = {
       e.preventDefault();
       hidenOnOrOff(Modal.alertResultBox);
 
-      Modal.alertResult.innerText = `
-      Seu IMC é de ${ImcResult(Modal.kg.value, Modal.cm.value).toFixed(2)}
-    `;
+      Modal.alertResult.innerText = `Seu IMC é de ${ImcResult(
+        Modal.kg.value,
+        Modal.cm.value
+      ).toFixed(2)}`;
 
-      Modal.alertError.classList.add("hide");
+      closedMensageAlertError();
     } else {
       e.preventDefault();
       hidenOnOrOff(Modal.alertError);
